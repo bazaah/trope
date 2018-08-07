@@ -1,0 +1,14 @@
+---
+debug: false
+port: 8080
+host: 0.0.0.0
+test: 3.4
+test2: 43
+test4: inf
+array:
+  - One
+  - two:
+      a: 1
+      b: 2
+  - three
+
