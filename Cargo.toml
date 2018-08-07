@@ -1,0 +1,6 @@
+[package]
+name = "dynyaml"
+version = "0.1.0"
+authors = ["pSox <psox@st8l.com>"]
+
+[dependencies]
