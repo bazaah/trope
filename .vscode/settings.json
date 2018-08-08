@@ -1,9 +1,10 @@
 {
     "cSpell.words": [
+        "DYNYAML",
         "Debounced",
         "deserialize",
+        "devops",
+        "serde",
         "toml"
     ],
-    "rust-client.channel": "nightly",
-    "rust-client.rlsPath": "~/.cargo/bin/rls",
 }
