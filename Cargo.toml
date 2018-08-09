@@ -7,4 +7,5 @@ authors = ["pSox <psox@st8l.com>"]
 config = "*"
 serde_yaml = "*"
 yaml-rust = "*"
+clap = {version = "~2.27.0"}
 
