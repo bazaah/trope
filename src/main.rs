@@ -19,7 +19,7 @@ fn main() {
                                     .help("Opens a specified file")
                                     .takes_value(true)
                                     .multiple(true)
-                                    .required(true)) // Until error handling or a default config is set keep this
+                                    .required(true))
                         .arg(Arg::with_name("debug")
                                     .short("d")
                                     .long("debug")
