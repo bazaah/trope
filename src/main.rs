@@ -5,7 +5,7 @@ extern crate clap;
 
 use std::collections::HashMap;
 use config::*;
-use clap::{App, Arg};
+use clap::{App, Arg, SubCommand};
 
 fn main() {
     let matches = App::new("Dynyaml")
@@ -28,14 +28,16 @@ fn main() {
 
     let mut settings = config::Config::default();
 
-    if let Some(c) = matches.value_of("config") {
-    settings
-        .merge(config::File::with_name(c))
+    let in_iterator = matches.values_of("config");
+    for f in in_iterator.unwrap() {
+        settings
+        .merge(config::File::with_name(f))
         .unwrap();
+    }
     settings
         .merge(config::Environment::with_prefix("DYNYAML"))
         .unwrap();
-    }
+    
     let yaml_doc = settings.try_into::<serde_yaml::Value>().unwrap();
     let yaml = serde_yaml::to_string(&yaml_doc).unwrap();
     let port = yaml_doc.get("port").unwrap();
