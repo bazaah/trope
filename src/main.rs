@@ -11,15 +11,19 @@ fn main() {
     let matches = App::new("Dynyaml")
                         .version(crate_version!())
                         .author(crate_authors!("/n"))
-                        .about("Testing cross format config merging")
+                        .about("Utility for merging yaml files")
                         .arg(Arg::with_name("config")
                                     .short("c")
                                     .long("config")
                                     .value_name("FILE")
-                                    .help("Opens a specified file")
+                                    .help("Specifies file(s) to merge")
                                     .takes_value(true)
                                     .multiple(true)
                                     .required(true))
+                        .arg(Arg::with_name("env_var")
+                                    .short("e")
+                                    .long("env")
+                                    .help("Merges enviromental variables with prefix: DYNYAML"))            
                         .arg(Arg::with_name("debug")
                                     .short("d")
                                     .long("debug")
@@ -34,10 +38,13 @@ fn main() {
         .merge(config::File::with_name(f))
         .unwrap();
     }
+
+    if matches.is_present("env_var") {
     settings
         .merge(config::Environment::with_prefix("DYNYAML"))
         .unwrap();
-    
+    }
+
     let yaml_doc = settings.try_into::<serde_yaml::Value>().unwrap();
     let yaml = serde_yaml::to_string(&yaml_doc).unwrap();
     let port = yaml_doc.get("port").unwrap();
