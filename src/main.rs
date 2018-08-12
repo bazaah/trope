@@ -3,9 +3,16 @@ extern crate serde_yaml;
 #[macro_use]
 extern crate clap;
 
-use std::collections::HashMap;
-use config::*;
-use clap::{App, Arg, SubCommand};
+use std::fs::File;
+use std::io::prelude::*;
+
+use clap::{App, Arg};
+
+fn yaml_writer(f: &[u8]) -> std::io::Result<()> {
+    let mut file = File::create("yml_out.yml")?;
+    file.write_all(f)?;
+    Ok(())
+}
 
 fn main() {
     let matches = App::new("Dynyaml")
@@ -41,17 +48,19 @@ fn main() {
 
     if matches.is_present("env_var") {
     settings
-        .merge(config::Environment::with_prefix("DYNYAML"))
+        .merge(config::Environment::with_prefix("TROPE"))
         .unwrap();
     }
 
     let yaml_doc = settings.try_into::<serde_yaml::Value>().unwrap();
     let yaml = serde_yaml::to_string(&yaml_doc).unwrap();
-    let port = yaml_doc.get("port").unwrap();
+    //let port = yaml_doc.get("port").unwrap();
 
     if matches.is_present("debug") {
-    println!("{:#?}", yaml_doc);
+    //println!("{:#?}", yaml_doc);
     println!("{}", yaml);
-    println!("{:#?}", port);
+    //println!("{:#?}", port);
     }
+    yaml_writer(yaml.as_bytes());
+
 }
