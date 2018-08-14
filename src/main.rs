@@ -1,24 +1,31 @@
 extern crate config;
 extern crate serde_yaml;
+extern crate serde_json;
 #[macro_use]
 extern crate clap;
 
 use std::fs::File;
 use std::io::prelude::*;
+use std::path::Path;
 
 use clap::{App, Arg};
 
-fn yaml_writer(f: &[u8]) -> std::io::Result<()> {
-    let mut file = File::create("yml_out.yml")?;
+fn writer(o: &str, f: &[u8]) -> std::io::Result<()> {
+    let mut file = File::create(o)?;
     file.write_all(f)?;
     Ok(())
 }
 
 fn main() {
-    let matches = App::new("Dynyaml")
+    let matches = App::new("Trope")
                         .version(crate_version!())
                         .author(crate_authors!("/n"))
-                        .about("Utility for merging yaml files")
+                        .about("Utility for merging YAML and JSON files")
+                        .arg(Arg::with_name("output")
+                                    .short("O")
+                                    .long("output")
+                                    .help("Sets the path to the output file")
+                                    .takes_value(true))
                         .arg(Arg::with_name("config")
                                     .short("c")
                                     .long("config")
@@ -30,37 +37,55 @@ fn main() {
                         .arg(Arg::with_name("env_var")
                                     .short("e")
                                     .long("env")
-                                    .help("Merges enviromental variables with prefix: DYNYAML"))            
+                                    .help("Merges enviromental variables with prefix: TROPE"))            
                         .arg(Arg::with_name("debug")
                                     .short("d")
                                     .long("debug")
-                                    .help("Displays contents of file from 'config'"))
+                                    .help("Displays contents of file(s) from 'config'"))
                         .get_matches();
 
     let mut settings = config::Config::default();
 
     let in_iterator = matches.values_of("config");
     for f in in_iterator.unwrap() {
-        settings
+    settings
         .merge(config::File::with_name(f))
-        .unwrap();
+        .expect("Error in merging given files");
     }
 
     if matches.is_present("env_var") {
     settings
         .merge(config::Environment::with_prefix("TROPE"))
-        .unwrap();
+        .expect("Error in merging given environmental variable");
     }
 
-    let yaml_doc = settings.try_into::<serde_yaml::Value>().unwrap();
-    let yaml = serde_yaml::to_string(&yaml_doc).unwrap();
-    //let port = yaml_doc.get("port").unwrap();
+    if let Some(o) = matches.value_of("output") {
+        let file_path = Path::new(o);
+        let extension_type = match file_path.extension() {
+        None => "",
+        Some(os_str) => {
+            match os_str.to_str() {
+                Some("yaml") => "yaml",
+                Some("yml") => "yaml",
+                Some("json") => "json",
+                _ => panic!("Can't find extension type"),
+                }
+            }
+        };
+        if extension_type == "yaml" {
+            let yaml_doc = settings.try_into::<serde_yaml::Value>().expect("Error in serializing merged configs");
+            let yaml = serde_yaml::to_string(&yaml_doc).expect("Error in moving merged configs to string");
+            writer(o, yaml.as_bytes());
+        } else if extension_type == "json" {
+            let json_doc = settings.try_into::<serde_json::Value>().expect("Error in serializing merged configs");
+            let json = serde_json::to_string(&json_doc).expect("Error in moving merged configs to string");
+            writer(o, json.as_bytes());
+        }
+    }
 
     if matches.is_present("debug") {
     //println!("{:#?}", yaml_doc);
-    println!("{}", yaml);
+    //println!("{}", yaml);
     //println!("{:#?}", port);
     }
-    yaml_writer(yaml.as_bytes());
-
 }
