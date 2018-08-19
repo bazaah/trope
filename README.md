@@ -125,8 +125,9 @@ servers:
 "test-float": 3.4
 ```
 
-## Bugs
+## Known Bugs
 
 * Trope incorrectly handles **-inf**, **+inf** and **NaN** values.
-
-It handles these values in an unpredictable fashion and should be avoided if possible
+  It handles these values in an unpredictable fashion and should be
+  avoided if possible.  This is as a result of the libraries used,
+  and will correct as these libraries are updated.
