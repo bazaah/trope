@@ -1,9 +1,10 @@
 {
+    "files.eol": "\n",
     "cSpell.words": [
-        "DYNYAML",
         "Debounced",
         "deserialize",
         "devops",
+        "rs's",
         "serde",
         "toml"
     ],
