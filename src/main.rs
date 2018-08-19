@@ -25,13 +25,14 @@ fn main() {
         .arg(
             Arg::with_name("output")
                 .short("O")
-                .long("output")
+                .long("FILE")
                 .help("Sets the path to the output file, or creates one if it doesn't exist")
-                .takes_value(true),
+                .takes_value(true)
+                .required(true),
         ).arg(
-            Arg::with_name("config")
-                .short("c")
-                .long("config")
+            Arg::with_name("input")
+                .short("I")
+                .long("input")
                 .value_name("FILE")
                 .help("Specifies file(s) to merge")
                 .takes_value(true)
@@ -51,8 +52,8 @@ fn main() {
     // Uses config_rs's default type for holding the various .yml, .json, etc fed into this program  
     let mut settings = config::Config::default();
 
-    // Iterates through and merges files passed via the config option
-    let in_iterator = matches.values_of("config");
+    // Iterates through and merges files passed via the input option
+    let in_iterator = matches.values_of("input");
     for f in in_iterator.unwrap() {
         settings
             .merge(config::File::with_name(f))

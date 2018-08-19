@@ -1,0 +1,28 @@
+---
+age: 40
+"test-int": 43
+address:
+  street: 11 Castle Lane
+  city: London
+host: 0.0.0.0
+phones:
+  - +44 1234567
+  - +44 2345678
+name: John Doe
+port: 8080
+array:
+  - One
+  - two:
+      b: 2
+      a: 1
+  - three
+debug: false
+servers:
+  beta:
+    dc: eqdc10
+    ip: 10.0.0.2
+    country: 中国
+  alpha:
+    ip: 10.0.0.1
+    dc: eqdc10
+"test-float": 3.4
