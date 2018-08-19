@@ -1,7 +1,7 @@
 # Trope Doc
 
 Trope is a simple command line utility for merging various config file types and environmental variables into
-either YAML or JSON. It is a pure Rust implmentation built for speed and as a showcase of Rust's ability to
+either YAML or JSON. It is a pure Rust implementation built for speed and as a showcase of Rust's ability to
 handle merging different types. It uses *clap-rs* for CLI interpretation, *config-rs* for
 file handling and *serde* for serialization.
 
@@ -35,7 +35,7 @@ Typing `trope -h` provides an in-console listing of all the information listed h
 
 #### Options
 
-* `-I` `--input` Used to add merging canidates with syntax: *PATH/FILENAME.extension* each canidate seperated by a space
+* `-I` `--input` Used to add merging candidates with syntax: *PATH/FILENAME.extension* each candidate separated by a space
 * `-O` `--output` Defines or creates the desired output file with syntax: *PATH/FILENAME.extension*
 
 ## Examples
@@ -91,8 +91,7 @@ array:
   }
 ```
 
-Running `trope -I Settings.yaml Server.toml Johndoe.json -O output.yaml` from the working directory will return a file 
-named `output.yaml`:
+Running `trope -I Settings.yaml Server.toml Johndoe.json -O output.yaml` from the working directory will return a file named `output.yaml`:
 
 ```yaml
 ---
