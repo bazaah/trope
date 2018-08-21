@@ -1,5 +1,6 @@
 [package]
 name = "trope"
+description = "Config merging to YAML/JSON"
 version = "0.1.0"
 authors = ["bazaah <jobs2018@luxolus.com>"]
 exclude = ["examples/*", ".vscode/*"]
