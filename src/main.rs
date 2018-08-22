@@ -25,7 +25,7 @@ fn main() {
         .arg(
             Arg::with_name("output")
                 .short("O")
-                .long("FILE")
+                .long("output")
                 .help("Sets the path to the output file, or creates one if it doesn't exist")
                 .takes_value(true)
                 .required(true),
