@@ -17,6 +17,11 @@ Trope supports the following file types as inputs:
 
 ## Installation
 
+Using Cargo simply run:
+```zsh
+cargo install trope
+```
+
 ## Usage
 
 Once installed, using Trope is simple: `trope [FLAGS] [OPTIONS]...`  
